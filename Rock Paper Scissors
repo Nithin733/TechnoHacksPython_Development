@@ -1,0 +1,67 @@
+import random,os
+import sys
+
+
+class Rock:
+    def __init__(self,name):
+        self.name=name.capitalize()
+
+        print(f"Hello Mr {self.name}")
+        n=int(input(f"how many chances you want take  {self.name} : "))
+        self.game(n)
+
+    def game(self,n):
+        options1 = ["Rock","Paper","Scissors"]
+
+        userscore=0
+        computerscore=0
+        for x in range(n):
+            print(f"Your Score is {userscore}  and Computer Score is {computerscore}")
+            try:
+                ran = random.choice(options1).title()
+                print(ran)
+                user=input(f"{self.name} Enter Your Choice From 'Rock' , 'Paper' , 'Scissors' ").title()
+                print(f"Computer Choice is : {ran}")
+                if(ran==user):
+                    continue
+                if(user not in options1):
+                    print("Give Correct Option")
+                    sys.exit()
+
+
+                if ran=="Rock":
+
+                    if user=="Paper":
+                        userscore+=1
+                    else:
+                        computerscore+=1
+                if ran=="Paper":
+
+                    if user=="Scissors":
+                        userscore+=1
+                    else:
+                        computerscore+=1
+                if ran == "Scissors":
+
+                    if user == "Rock":
+                        userscore += 1
+                    else:
+                        computerscore += 1
+
+
+            except Exception as e:
+                print(f"Some error occured in input {e} please retry with perfect input")
+        if userscore>computerscore:
+            print(f"hey {self.name} you won🎉🎉🍾💯")
+            print(f"Your Score is {userscore}💪  and Computer Score is {computerscore}🤣👎")
+        elif computerscore>userscore:
+
+            print(f"Ooo..You Lost {self.name} ☹️☹️")
+            print(f"Your Score is {userscore}💪  and Computer Score is {computerscore2}🤣👎")
+        else:
+            print("The Match Tied....!")
+            print(f"Your Score is {userscore}  and Computer Score is {computerscore}")
+
+obj=Rock
+obj(input("Hello User Enter Your Name : "))
+

@@ -1,0 +1,62 @@
+import os
+import pygame
+from tkinter import Tk, filedialog, Button, Label, Scale
+
+class MusicPlayer:
+    def __init__(self, master):
+        self.master = master
+        master.title("GUI Music Player")
+
+        self.current_file = None
+
+        # Create GUI components
+        self.label = Label(master, text="Volume:")
+        self.label.pack()
+
+        self.volume_scale = Scale(master, from_=0, to=100, orient="horizontal", command=self.update_volume)
+        self.volume_scale.set(50)
+        self.volume_scale.pack()
+
+        self.play_button = Button(master, text="Play", command=self.play_music)
+        self.play_button.pack()
+
+        self.stop_button = Button(master, text="Stop", command=self.stop_music)
+        self.stop_button.pack()
+
+        self.pause_button = Button(master, text="Pause/Resume", command=self.pause_unpause_music)
+        self.pause_button.pack()
+
+        self.browse_button = Button(master, text="Browse", command=self.browse_file)
+        self.browse_button.pack()
+
+    def play_music(self):
+        if self.current_file:
+            pygame.mixer.music.load(self.current_file)
+            pygame.mixer.music.play()
+
+    def stop_music(self):
+        pygame.mixer.music.stop()
+
+    def pause_unpause_music(self):
+        if pygame.mixer.music.get_busy():
+            pygame.mixer.music.pause()
+        else:
+            pygame.mixer.music.unpause()
+
+    def update_volume(self, volume):
+        pygame.mixer.music.set_volume(int(volume) / 100)
+
+    def browse_file(self):
+        file_path = filedialog.askopenfilename(filetypes=[("MP3 Files", "*.mp3"), ("All Files", "*.*")])
+        if file_path:
+            self.current_file = file_path
+            print(f"Selected File: {os.path.basename(file_path)}")
+
+if __name__ == "__main__":
+    # Initialize Pygame
+    pygame.init()
+
+    # Create Tkinter window
+    root = Tk()
+    player = MusicPlayer(root)
+    root.mainloop()
